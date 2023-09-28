@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Listing from './Components/Listing.tsx';
+import CreateListing from './Components/CreateListing.tsx';
 
 export enum Status {
   Denied,
@@ -226,11 +227,12 @@ function App() {
         all listings
         total sales {totalSales}
       </div>
-      <div> putain </div>
+      <CreateListing></CreateListing>
+
       <div className="outer-body">
         {listings.map((listing, index) => {
 
-          return <Listing index={index} listing={listing}></Listing>
+          return <Listing key={index} index={index} listing={listing}></Listing>
 
 
         })}

@@ -16,8 +16,6 @@ const Listing = ({ index, listing }: ListingProps) => {
 
 
 
-    console.log(listing.highestBid)
-
 
     return <div className={"outer-listing-container flex-item"}>
         <img className="image" src={DummyImage} alt={listing.name} />
