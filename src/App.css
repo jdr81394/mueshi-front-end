@@ -1,6 +1,8 @@
-.App {
+/* .App {
   text-align: center;
-}
+  animation: fadeOut 1s ease-in-out forwards;
+
+} */
 
 .app-total-sales {
   display: inline-block;
@@ -43,6 +45,8 @@
 .flex-item {
   flex-basis: 20%;
 }
+
+
 
 
 @media (max-width: 850px) {

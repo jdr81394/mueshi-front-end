@@ -1,30 +1,49 @@
-import React from 'react';
-import "./Listing.css";
+import React, { useEffect, useState } from 'react';
+import "./ListingStyles.tsx";
 import { ListingData } from '../App';
 import DummyImage from "../mueshi.png"
+import { ListingImage, OuterListingContainer, ProductTextDescription } from './ListingStyles.tsx';
 
 
 
 interface ListingProps {
     index: number
-    listing: ListingData
+    listing: ListingData,
+    handleFadeAway: () => {}
 };
 
 
-const Listing = ({ index, listing }: ListingProps) => {
+const Listing = ({ index, listing, handleFadeAway }: ListingProps) => {
+
+    const [isExpanded, setIsExpanded] = useState<boolean>(false);
+    const [top, setTop] = useState<number>();
+    const [left, setLeft] = useState<number>();
+
+    const elementRef = React.createRef();
 
 
+    const expandListing = () => {
+        setIsExpanded(true);
+        handleFadeAway();
+    }
 
 
+    useEffect(() => {
+        const x = elementRef.current as any;
+        const { top, left } = x.getBoundingClientRect();
+        setTop(top);
+        setLeft(left);
+    }, [])
 
-    return <div className={"outer-listing-container flex-item"}>
-        <img className="image" src={DummyImage} alt={listing.name} />
-        <div className='product-text-description'>
+
+    return <OuterListingContainer top={top} left={left} ref={elementRef} isExpanded={isExpanded} onClick={() => expandListing()} className="flex-item">
+        <ListingImage isExpanded={isExpanded} className="image" src={DummyImage} alt={listing.name}></ListingImage>
+        <ProductTextDescription isExpanded={isExpanded} >
             <div> {listing.name} - ${listing.price}</div>
             <div> Highest Bidder: {listing.highestBid[0].price} </div>
-        </div>
+        </ProductTextDescription>
+    </OuterListingContainer>
 
-    </div>
 }
 
 export default Listing;

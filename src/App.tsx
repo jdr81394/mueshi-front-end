@@ -4,6 +4,7 @@ import './App.css';
 import Listing from './Components/Listing.tsx';
 import CreateListing from './Components/CreateListing.tsx';
 import ListingFilter from './Components/ListingFilter.tsx';
+import { AppComponent } from './AppStyles.tsx';
 
 export enum Status {
   Denied,
@@ -228,13 +229,18 @@ function App() {
   const [listings, setListings] = useState<ListingData[]>(dummyListing)
   const [showYourLists, setShowYourLists] = useState<boolean>(true);
   const [totalSales, setTotalSales] = useState<number>(0);
+  const [fadeAway, setFadeAway] = useState<boolean>(false);
 
   const handleSetShowYourLists = () => {
     setShowYourLists(!showYourLists);
   }
 
+  const handleFadeAway = () => {
+    setFadeAway(true);
+  }
+
   return (
-    <div className="App">
+    <AppComponent fadeAway={fadeAway}>
       <div className='navbar'>
         Your listings
         all listings
@@ -261,13 +267,13 @@ function App() {
           }
 
         }).map((listing, index) => {
-          return <Listing key={index} index={index} listing={listing}></Listing>
+          return <Listing handleFadeAway={handleFadeAway} key={index} index={index} listing={listing}></Listing>
 
 
         })}
       </div>
 
-    </div >
+    </AppComponent >
   );
 }
 
