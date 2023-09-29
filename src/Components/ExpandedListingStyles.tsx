@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 interface CustomInput {
     isEdit: boolean
@@ -12,9 +12,18 @@ const fadeIn = keyframes`
         opacity;1
      }
 `
+const fadeOut = keyframes`
+    0% {
+        opacity: 1;
+    }
+     100% {
+        opacity: 0;
+     }
+`
 
-export const FullPage = styled.div`
+export const FullPage = styled.div<{ fadeAway: boolean }>`
     animation: ${fadeIn} 1s linear;
+    animation: ${({ fadeAway }) => fadeAway ? css`${fadeOut} 1s linear forwards;` : ""}
     opacity: 1;
 
 `

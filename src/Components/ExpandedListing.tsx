@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BidPanel, BidPanelButtonContainer, BidPanelButtonContainerAcceptButton, BidPanelButtonContainerDeclineButton, BidPanelFlex, BidPanelImage, BidPanelText, BottomHalf, ButtonContainer, CancelButton, CurrentBidderText, DeleteButton, EditButton, FullPage, NameInput, Photo, PriceInput, SaveButton, TextArea, TextForm, TopHalf, VerticalDivider } from './ExpandedListingStyles.tsx';
-import { useLocation, useSearchParams, useParams } from 'react-router-dom';
+import { useLocation, useSearchParams, useParams, useNavigate } from 'react-router-dom';
 import DummyImage from "../mueshi.png"
 import { BidData, Status } from '../App.tsx';
 import axios from "axios";
@@ -51,11 +51,13 @@ const ExpandedListing = () => {
     const [price, setPrice] = useState<number>(123123);
     const [bids, setBids] = useState<BidData[]>(dummyBids);
     const [description, setDescription] = useState<string>("");
+    const [fadeAway, setFadeAway] = useState<boolean>(false);
 
     const [isEdit, setIsEdit] = useState<boolean>(false);
 
 
     const { id } = useParams();
+    const navigator = useNavigate();
 
     useEffect(() => {
         axios.get(`http://localhost:3001/getListing?id=${id}`).then((res) => {
@@ -73,8 +75,20 @@ const ExpandedListing = () => {
     }, [])
 
     const handleSave = () => {
-
         /* make api call */
+        axios.put("http://localhost:3001/putListing", { name, price, id })
+            .then((response) => {
+                const { name, price } = response.data;
+                setName(name);
+                setPrice(price as number);
+                // Handle the successful response here
+                console.log('PUT request successful:', response.data);
+                setIsEdit(false);
+            })
+            .catch((error) => {
+                // Handle any errors that occurred during the request
+                console.error('Error making PUT request:', error);
+            });
     }
 
     const handleEdit = () => {
@@ -85,19 +99,39 @@ const ExpandedListing = () => {
 
     const handleDelete = () => {
         /* make api call */
+        axios.delete(`http://localhost:3001/deleteListing?id=${id}`).then((response) => {
+            console.log("RESPONSE : ", response);
+            setFadeAway(true);
 
+            setTimeout(() => {
+                navigator("/");
+
+            }, 1000)
+
+            /* */
+        })
+    }
+
+    const updateName = (e: any) => {
+        const value = e.target.value;
+        setName(value);
+    }
+
+    const updatePrice = (e: any) => {
+        const value = e.target.value;
+        setPrice(value);
     }
 
 
     /* http call to get name, price and value */
 
-    return <FullPage>
+    return <FullPage fadeAway={fadeAway}>
         <nav></nav>
         <TopHalf>
             <Photo src={DummyImage} alt={"hi"}></Photo>
             <TextForm>
-                <NameInput isEdit={isEdit} disabled={!isEdit} type="string" value={name} />
-                <PriceInput isEdit={isEdit} disabled={!isEdit} type="number" value={price} />
+                <NameInput isEdit={isEdit} disabled={!isEdit} type="string" value={name} onChange={(e) => updateName(e)} />
+                <PriceInput isEdit={isEdit} disabled={!isEdit} type="number" value={price} onChange={(e) => updatePrice(e)} />
                 {/* <TextArea value={description} /> */}
 
                 <ButtonContainer>
