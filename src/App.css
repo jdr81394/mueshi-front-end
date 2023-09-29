@@ -2,11 +2,35 @@
   text-align: center;
 }
 
-.navbar {
-  margin: 10px;
+.app-total-sales {
+  display: inline-block;
+  font-style: italic;
+  font-family: Helvetica;
+  margin: auto 0px;
 }
 
-.outer-body {
+
+
+/* 
+.navbar {
+  margin: 10px;
+} */
+
+.app-horizontal-divider {
+  border: none;
+  height: 1px;
+  width: 85%;
+  margin: 40px auto;
+  background-color: #ccc;
+
+}
+
+.app-sales-filter-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.app-outer-body {
   justify-content: space-between;
   padding: 5% 10%;
   display: flex;
@@ -39,5 +63,11 @@
   .outer-body {
     padding: 5% 0%;
 
+  }
+}
+
+@media (max-width: 450px) {
+  .app-total-sales {
+    font-size: 16px;
   }
 }

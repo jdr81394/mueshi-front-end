@@ -242,8 +242,16 @@ function App() {
       </div>
       <CreateListing ></CreateListing>
 
-      <div className="outer-body">
+      <div>
+        <div className="app-horizontal-divider"></div>
+      </div>
+      <div className="app-sales-filter-container">
+        <h2 className='app-total-sales'>Your Total Sales: ${totalSales}</h2>
+
         <ListingFilter showYourLists={showYourLists} handleSetShowYourLists={handleSetShowYourLists}></ListingFilter>
+      </div>
+
+      <div className="app-outer-body">
 
         {listings.filter((listing) => {
           if (showYourLists === true) {
@@ -259,7 +267,7 @@ function App() {
         })}
       </div>
 
-    </div>
+    </div >
   );
 }
 

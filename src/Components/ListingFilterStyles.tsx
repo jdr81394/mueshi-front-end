@@ -5,8 +5,9 @@ interface StyledButtonProps {
 }
 
 const StyledButton = styled.button <StyledButtonProps> `
-    margin: auto;
-    width: 100%;
+    max-width: 200px; 
+    width: 50%;
+    height: 50%;
     display: inline-block;
     padding: 12px 24px;
     font-size: 16px;
