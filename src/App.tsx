@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Listing from './Components/Listing.tsx';
 import CreateListing from './Components/CreateListing.tsx';
+import ListingFilter from './Components/ListingFilter.tsx';
 
 export enum Status {
   Denied,
@@ -45,7 +46,7 @@ const dummyListing: ListingData[] = [
   },
   {
     id: 1,
-    ownerId: 102,
+    ownerId: 101,
     name: 'Listing 2',
     price: 75,
     highestBid: [{
@@ -57,7 +58,7 @@ const dummyListing: ListingData[] = [
   },
   {
     id: 2,
-    ownerId: 103,
+    ownerId: 101,
     name: 'Listing 3',
     price: 40,
     highestBid: [{
@@ -69,7 +70,7 @@ const dummyListing: ListingData[] = [
   },
   {
     id: 3,
-    ownerId: 103,
+    ownerId: 101,
     name: 'Listing 3',
     price: 45,
     highestBid: [{
@@ -189,7 +190,7 @@ const dummyListing: ListingData[] = [
   },
   {
     id: 10,
-    ownerId: 110,
+    ownerId: 111,
     name: 'Listing 10',
     price: 110,
     highestBid: [{
@@ -214,11 +215,23 @@ const dummyListing: ListingData[] = [
   // Add more objects as needed
 ];
 
+const dummyUser: PersonData = {
+  name: "dummy",
+  id: 101,
+  totalSales: 10,
+  listings: []
+};
+
 function App() {
 
+  const [user, setUser] = useState<PersonData>(dummyUser);
   const [listings, setListings] = useState<ListingData[]>(dummyListing)
-  const [yourLists, setYourLists] = useState<boolean>(true);
+  const [showYourLists, setShowYourLists] = useState<boolean>(true);
   const [totalSales, setTotalSales] = useState<number>(0);
+
+  const handleSetShowYourLists = () => {
+    setShowYourLists(!showYourLists);
+  }
 
   return (
     <div className="App">
@@ -227,11 +240,19 @@ function App() {
         all listings
         total sales {totalSales}
       </div>
-      <CreateListing></CreateListing>
+      <CreateListing ></CreateListing>
 
       <div className="outer-body">
-        {listings.map((listing, index) => {
+        <ListingFilter showYourLists={showYourLists} handleSetShowYourLists={handleSetShowYourLists}></ListingFilter>
 
+        {listings.filter((listing) => {
+          if (showYourLists === true) {
+            return listing.ownerId === user.id;
+          } else {
+            return true;
+          }
+
+        }).map((listing, index) => {
           return <Listing key={index} index={index} listing={listing}></Listing>
 
 

@@ -28,7 +28,7 @@ const CreateListing = () => {
 
             <input onFocus={(e) => e.preventDefault()} placeholder="Name Your Listing" type='string' value={name} onChange={(e) => handleSetName(e)} />
             <input type='number' value={price} onChange={(e) => handleSetPrice(e)} />
-            <button> add </button>
+            <button className={`${CLASS_PREFIX}-button`}> add </button>
         </div>
         <div className={`${CLASS_PREFIX}-vertical-divider`}></div>
 
