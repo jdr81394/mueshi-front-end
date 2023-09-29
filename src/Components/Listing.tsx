@@ -24,7 +24,7 @@ const Listing = ({ index, listing, handleFadeAway }: ListingProps) => {
 
     const expandListing = () => {
         setIsExpanded(true);
-        handleFadeAway();
+        handleFadeAway(listing.id);
     }
 
 

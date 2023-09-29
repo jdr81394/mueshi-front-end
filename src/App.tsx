@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import Listing from './Components/Listing.tsx';
@@ -225,6 +226,8 @@ const dummyUser: PersonData = {
 
 function App() {
 
+  const navigator = useNavigate();
+
   const [user, setUser] = useState<PersonData>(dummyUser);
   const [listings, setListings] = useState<ListingData[]>(dummyListing)
   const [showYourLists, setShowYourLists] = useState<boolean>(true);
@@ -235,8 +238,12 @@ function App() {
     setShowYourLists(!showYourLists);
   }
 
-  const handleFadeAway = () => {
+  const handleFadeAway = (id: number) => {
     setFadeAway(true);
+    setTimeout(() => {
+      navigator(`/listing/${id}`)
+    }, 1000)
+
   }
 
   return (
