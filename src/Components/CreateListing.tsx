@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import "./CreateListing.css"
 import DummyImage from "../mueshi.png"
+import axios from "axios";
 
 const CLASS_PREFIX = "create-listing";
 
-const CreateListing = () => {
+const CreateListing = ({ addListing, listings, ownerId }) => {
 
 
     const [name, setName] = useState<string>("");
@@ -21,6 +22,20 @@ const CreateListing = () => {
         setPrice(value);
     }
 
+    const postListing = () => {
+        axios.post("http://localhost:3001/postListing", { name, price, ownerId })
+            .then(response => {
+                if (response.status === 200) {
+
+                    addListing(response.data)
+                    // Add a toast 
+                }
+            }).catch(err => {
+                console.error("Error on posting listing: ", err);
+            })
+    }
+
+
     return <div className={`${CLASS_PREFIX}-inner-body`}>
         <div className={`${CLASS_PREFIX}-text-body`}>
             <h1> Add A Listing</h1>
@@ -28,7 +43,7 @@ const CreateListing = () => {
 
             <input onFocus={(e) => e.preventDefault()} placeholder="Name Your Listing" type='string' value={name} onChange={(e) => handleSetName(e)} />
             <input type='number' value={price} onChange={(e) => handleSetPrice(e)} />
-            <button className={`${CLASS_PREFIX}-button`}> add </button>
+            <button onClick={postListing} className={`${CLASS_PREFIX}-button`}> add </button>
         </div>
         <div className={`${CLASS_PREFIX}-vertical-divider`}></div>
 

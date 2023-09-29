@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BidPanel, BidPanelButtonContainer, BidPanelButtonContainerAcceptButton, BidPanelButtonContainerDeclineButton, BidPanelFlex, BidPanelImage, BidPanelText, BottomHalf, ButtonContainer, CancelButton, CurrentBidderText, DeleteButton, EditButton, FullPage, NameInput, Photo, PriceInput, SaveButton, TextArea, TextForm, TopHalf, VerticalDivider } from './ExpandedListingStyles.tsx';
 import { useLocation, useSearchParams, useParams } from 'react-router-dom';
 import DummyImage from "../mueshi.png"
 import { BidData, Status } from '../App.tsx';
+import axios from "axios";
+
 
 const dummyBids: BidData[] = [
     {
@@ -55,7 +57,20 @@ const ExpandedListing = () => {
 
     const { id } = useParams();
 
-    console.log(id)
+    useEffect(() => {
+        axios.get(`http://localhost:3001/getListing?id=${id}`).then((res) => {
+            const { listing } = res.data;
+            const dummyBids = res.data.bids;
+            const { name, price } = listing;
+
+            setName(name);
+            setPrice(price);
+            setBids(dummyBids);
+            console.log(dummyBids);
+        }).catch((err) => {
+            console.error("Error when getting listing: ", err);
+        })
+    }, [])
 
     const handleSave = () => {
 
@@ -102,9 +117,8 @@ const ExpandedListing = () => {
                     <BidPanelFlex>
                         <BidPanelImage src={DummyImage} alt={"hi"}></BidPanelImage>
                         <BidPanelText>
-                            <div> Name </div>
-                            <div> Price </div>
-                            <div> Data bid: DummyVal </div>
+                            <div> Name {bid?.bidder?.name} </div>
+                            <div> Bid: ${bid.price} </div>
                         </BidPanelText>
                     </BidPanelFlex>
                     <BidPanelButtonContainer>
