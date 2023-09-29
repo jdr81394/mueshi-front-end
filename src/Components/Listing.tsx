@@ -9,7 +9,7 @@ import { ListingImage, OuterListingContainer, ProductTextDescription } from './L
 interface ListingProps {
     index: number
     listing: ListingData,
-    handleFadeAway: () => {}
+    handleFadeAway: (id: number) => {}
 };
 
 
