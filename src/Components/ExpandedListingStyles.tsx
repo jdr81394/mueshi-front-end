@@ -20,17 +20,19 @@ export const FullPage = styled.div`
 `
 
 export const TopHalf = styled.div`
+     height: 350px;
      display: flex;
      padding: 25px;
      font-style: italic;
-    margin: 10px 1% 5%;
+    margin: 1% auto;
     background-color: #ffffff;
     box-shadow: 0px 4px 6px 4px rgba(0, 0, 0, 0.5);
     border-radius: 8px;
-
+     width: 80%;
      @media (max-width: 750px) {
         flex-direction: column;
     }
+    max-width: 800px;
 `
 
 export const TextForm = styled.div`
@@ -164,6 +166,29 @@ export const CancelButton = styled.button`
 
 `
 
+export const DeleteButton = styled.button`
+    margin: auto;
+    width: 40%;
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    background: linear-gradient(to bottom, #e74c3c, #c0392b);
+    border-radius: 4px;
+    border: 2px solid #e74c3c;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, transform 0.2s;
+    flex-basis: 40%;
+
+    @media (max-width: 750px) {
+        width: 100%;
+    }
+
+`
+
 
 
 
@@ -175,12 +200,108 @@ export const TextArea = styled.textarea`
 
 export const Photo = styled.img`
     border-radius: 100000px;
-     width: 50%;
-     height: 50%;
+     width: 300px;
+     height: 300px;
      @media (max-width: 750px) {
-        margin: auto
+        margin: auto;
+        width: 175px;
+        height: 175px;
     }
 `
 
-export const BottomHalf = styled.div``
+export const CurrentBidderText = styled.div`
+    margin: 4% auto;
+    font-size: 20px;
+    font-style: italic;
+    text-align: center;
+    `
+
+export const BidPanel = styled.div`
+    padding: 25px;
+    font-style: italic;
+    margin: 4% auto;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 6px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    max-width: 800px;
+    @media (max-width: 750px) {
+        display: flex;
+        flex-direction: column;
+    }
+
+`
+
+export const BidPanelFlex = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+    @media (max-width: 750px) {
+        flex-direction: row;
+    }
+`
+
+export const BidPanelImage = styled.img`
+    border-radius: 100000px;
+    width: 300px;
+    height: 300px;
+    @media (max-width: 750px) {
+        width: 150px;
+        height: 150px;
+    }
+`
+
+export const BidPanelText = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+`
+
+export const BidPanelButtonContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+   
+`
+
+export const BidPanelButtonContainerAcceptButton = styled.button`
+    margin: 10px auto;
+    width: 40%;
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+background: linear-gradient(to bottom, #2ecc71, #27ae60);
+    border-radius: 4px;
+    border: 2px solid #2ecc71;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 200px;
+    `
+
+export const VerticalDivider = styled.div`
+width: 70%;
+height: 1px;
+background-color: #ccc;
+margin: 4% auto;
+`
+export const BidPanelButtonContainerDeclineButton = styled.button`
+    margin: 10px auto;
+    width: 40%;
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    background: linear-gradient(to bottom, #e74c3c, #c0392b);
+    border-radius: 4px;
+    border: 2px solid #e74c3c;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 200px;
+`
+
+export const BottomHalf = styled.div`
+    padding: 0px 50px;
+`
 

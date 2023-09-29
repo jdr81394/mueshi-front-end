@@ -1,12 +1,53 @@
 import React, { useState } from 'react';
-import { BottomHalf, ButtonContainer, CancelButton, EditButton, FullPage, NameInput, Photo, PriceInput, SaveButton, TextArea, TextForm, TopHalf } from './ExpandedListingStyles.tsx';
+import { BidPanel, BidPanelButtonContainer, BidPanelButtonContainerAcceptButton, BidPanelButtonContainerDeclineButton, BidPanelFlex, BidPanelImage, BidPanelText, BottomHalf, ButtonContainer, CancelButton, CurrentBidderText, DeleteButton, EditButton, FullPage, NameInput, Photo, PriceInput, SaveButton, TextArea, TextForm, TopHalf, VerticalDivider } from './ExpandedListingStyles.tsx';
 import { useLocation, useSearchParams, useParams } from 'react-router-dom';
 import DummyImage from "../mueshi.png"
+import { BidData, Status } from '../App.tsx';
+
+const dummyBids: BidData[] = [
+    {
+        id: 1,
+        bidderId: 101,
+        listingId: 201,
+        price: 50,
+        status: Status.Accepted,
+    },
+    {
+        id: 2,
+        bidderId: 102,
+        listingId: 202,
+        price: 60,
+        status: Status.Accepted,
+    },
+    {
+        id: 3,
+        bidderId: 103,
+        listingId: 203,
+        price: 70,
+        status: Status.InProgress,
+    },
+    {
+        id: 4,
+        bidderId: 104,
+        listingId: 204,
+        price: 45,
+        status: Status.Denied,
+    },
+    {
+        id: 5,
+        bidderId: 105,
+        listingId: 205,
+        price: 55,
+        status: Status.InProgress,
+    },
+];
+
 
 const ExpandedListing = () => {
 
     const [name, setName] = useState<string>("Dummy Name");
     const [price, setPrice] = useState<number>(123123);
+    const [bids, setBids] = useState<BidData[]>(dummyBids);
     const [description, setDescription] = useState<string>("");
 
     const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -26,8 +67,11 @@ const ExpandedListing = () => {
         else setIsEdit(false);
     }
 
-    // console.log("product id: ", productId)
 
+    const handleDelete = () => {
+        /* make api call */
+
+    }
 
 
     /* http call to get name, price and value */
@@ -43,13 +87,33 @@ const ExpandedListing = () => {
 
                 <ButtonContainer>
                     {!isEdit && <EditButton onClick={handleEdit}> Edit </EditButton>}
+                    {!isEdit && <DeleteButton onClick={handleDelete}> Delete </DeleteButton>}
                     {isEdit && <SaveButton onClick={handleSave}> Save </SaveButton>}
                     {isEdit && <CancelButton onClick={handleEdit}> Cancel </CancelButton>}
                 </ButtonContainer>
             </TextForm>
         </TopHalf>
         <BottomHalf>
-            <h2> Current Bidders</h2>
+            <VerticalDivider></VerticalDivider>
+
+            <CurrentBidderText> Current Bidders</CurrentBidderText>
+            {bids && bids.map((bid, index) => {
+                return <BidPanel key={index}>
+                    <BidPanelFlex>
+                        <BidPanelImage src={DummyImage} alt={"hi"}></BidPanelImage>
+                        <BidPanelText>
+                            <div> Name </div>
+                            <div> Price </div>
+                            <div> Data bid: DummyVal </div>
+                        </BidPanelText>
+                    </BidPanelFlex>
+                    <BidPanelButtonContainer>
+                        <BidPanelButtonContainerAcceptButton>Accept</BidPanelButtonContainerAcceptButton>
+                        <BidPanelButtonContainerDeclineButton>Decline</BidPanelButtonContainerDeclineButton>
+
+                    </BidPanelButtonContainer>
+                </BidPanel>
+            })}
         </BottomHalf>
 
     </FullPage >

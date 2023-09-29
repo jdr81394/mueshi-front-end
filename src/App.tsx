@@ -12,18 +12,21 @@ export enum Status {
   InProgress,
   Accepted
 };
+
+export interface BidData {
+  id: number,
+  bidderId: number,
+  listingId: number,
+  price: number,
+  status: Status
+};
 export interface PersonData {
   id: number,
   name: string,
   totalSales: number,
   listings: ListingData[]
 }
-export interface BidData {
-  id: number,
-  bidderId: number,
-  price: number,
-  status: Status
-};
+
 export interface ListingData {
   id: number,
   ownerId: number,
