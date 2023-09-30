@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { AskingPrice, AskingPriceContainer, BidPanel, BidPanelButtonContainer, BidPanelButtonContainerAcceptButton, BidPanelButtonContainerDeclineButton, BidPanelFlex, BidPanelImage, BidPanelText, BottomHalf, ButtonContainer, CancelButton, CurrentBidderText, DeleteButton, EditButton, FullPage, NameInput, Photo, PriceInput, SaveButton, TextArea, TextForm, TopHalf, VerticalDivider } from './ExpandedListingStyles.tsx';
-import { useLocation, useSearchParams, useParams, useNavigate } from 'react-router-dom';
+import { AskingPrice, AskingPriceContainer, BidPanel, BidPanelButtonContainer, BidPanelButtonContainerAcceptButton, BidPanelButtonContainerDeclineButton, BidPanelFlex, BidPanelImage, BidPanelText, BottomHalf, BottomNavbar, ButtonContainer, CancelButton, CurrentBidderText, DeleteButton, EditButton, FullPage, NameInput, Navbar, Photo, PriceInput, SaveButton, TextArea, TextForm, TopHalf, VerticalDivider } from './ExpandedListingStyles.tsx';
+import { useLocation, useSearchParams, useParams, useNavigate, Link } from 'react-router-dom';
 import DummyImage from "../mueshi.png"
 import { BidData, Status } from '../App.tsx';
 import axios from "axios";
@@ -68,6 +68,7 @@ const ExpandedListing = () => {
     const navigator = useNavigate();
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         axios.get(`http://localhost:3001/getListing?id=${id}`).then((res) => {
             const { listing } = res.data;
             const dummyBids = res.data.bids;
@@ -159,7 +160,14 @@ const ExpandedListing = () => {
     /* http call to get name, price and value */
 
     return <FullPage fadeAway={fadeAway}>
-        <nav></nav>
+        <Navbar>
+            <Link style={{ margin: "auto 20px", color: "inherit", textDecoration: 'none' }} className="nav-link" to="/">Home</Link>
+            <a style={{ margin: "auto 20px" }} className="nav-links"> Dummy</a>
+            <a style={{ margin: "auto 20px" }} className="nav-links"> Link </a>
+            <img style={{ margin: "auto 20px" }} className="nav-link-image" style={{ width: "25px", height: "25px", borderRadius: "100000px" }} src={DummyImage} alt={"Dummy"} />
+
+        </Navbar>
+
         <TopHalf>
             <Photo src={DummyImage} alt={"hi"}></Photo>
             <TextForm>
@@ -189,7 +197,7 @@ const ExpandedListing = () => {
                     <BidPanelFlex>
                         <BidPanelImage src={DummyImage} alt={"hi"}></BidPanelImage>
                         <BidPanelText>
-                            <div> Name {bid?.bidder?.name} </div>
+                            <div> Bidder: {bid?.bidder?.name} </div>
                             <div> Bid: ${bid.price} </div>
                         </BidPanelText>
                     </BidPanelFlex>
@@ -202,8 +210,14 @@ const ExpandedListing = () => {
                     }
                 </BidPanel>
             })}
+            {bids.length === 0 && <div style={{ marginBottom: "100px", fontStyle: "italic", fontSize: "16px", textAlign: "center" }}>No Bids Found.</div>}
         </BottomHalf>
+        <BottomNavbar>
+            <a style={{ fontFamily: "Helvetica", fontStyle: "italic", margin: "auto 20px" }} className="nav-links"> Dummy</a>
+            <a style={{ fontStyle: "italic", margin: "auto 20px" }} className="nav-links"> Link</a>
+            <a style={{ fontStyle: "italic", margin: "auto 20px" }} className="nav-links"> Mueshi.io</a>
 
+        </BottomNavbar>
     </FullPage >
 }
 

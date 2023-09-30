@@ -39,7 +39,7 @@ const Listing = ({ index, listing, handleFadeAway }: ListingProps) => {
     return <OuterListingContainer top={top} left={left} ref={elementRef} isExpanded={isExpanded} onClick={() => expandListing()} className="flex-item">
         <ListingImage isExpanded={isExpanded} className="image" src={DummyImage} alt={listing.name}></ListingImage>
         <ProductTextDescription isExpanded={isExpanded} >
-            <div> {listing && listing.name} - ${listing && listing.price}</div>
+            <div> {listing && listing.name}: ${listing && listing.price}</div>
             <div> Highest Bid: {listing && listing.highestBid} </div>
         </ProductTextDescription>
     </OuterListingContainer>

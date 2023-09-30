@@ -6,7 +6,8 @@ import './App.css';
 import Listing from './Components/Listing.tsx';
 import CreateListing from './Components/CreateListing.tsx';
 import ListingFilter from './Components/ListingFilter.tsx';
-import { AppComponent } from './AppStyles.tsx';
+import { AppComponent, BottomNavbar } from './AppStyles.tsx';
+import DummyImage from "./mueshi.png"
 
 export enum Status {
   Denied,
@@ -300,10 +301,12 @@ function App() {
 
   return (
     <AppComponent fadeAway={fadeAway}>
-      <div className='navbar'>
-        Your listings
-        all listings
-        total sales ${user && user.totalSales}
+      <div className='navbar' >
+        <a className="nav-links"> Dummy</a>
+        <a className="nav-links"> Link </a>
+        <a className="nav-links"> Total Sales: ${user && user.totalSales}</a>
+        <img className="nav-link-image" style={{ width: "25px", height: "25px", borderRadius: "100000px" }} src={DummyImage} alt={"Dummy"} />
+
       </div>
       {user && <CreateListing listings={listings} addListing={addListing} ownerId={user.id}></CreateListing>}
 
@@ -332,6 +335,12 @@ function App() {
 
         })}
       </div>
+      <BottomNavbar>
+        <a style={{ fontFamily: "Helvetica", fontStyle: "italic", margin: "auto 20px" }} className="nav-links"> Dummy</a>
+        <a style={{ fontStyle: "italic", margin: "auto 20px" }} className="nav-links"> Link</a>
+        <a style={{ fontStyle: "italic", margin: "auto 20px" }} className="nav-links"> Mueshi.io</a>
+
+      </BottomNavbar>
 
     </AppComponent >
   );

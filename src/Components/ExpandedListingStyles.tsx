@@ -4,6 +4,7 @@ interface CustomInput {
     isEdit: boolean
 }
 
+
 const fadeIn = keyframes`
     0% {
         opacity: 0
@@ -20,6 +21,44 @@ const fadeOut = keyframes`
         opacity: 0;
      }
 `
+
+export const Navbar = styled.nav`
+
+
+  background-color: #ccc;
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 10px 0;
+  margin: 0px 1% 5%;
+  /* background-color: #ffffff; */
+  box-shadow: 0px 4px 6px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+
+
+`
+
+export const BottomNavbar = styled.nav`
+
+
+  background-color: #ccc;
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 10px 0;
+  margin: 13% 1% 1.5%;
+  /* background-color: #ffffff; */
+  box-shadow: 0px -4px 6px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+
+
+`
+
+
 
 export const FullPage = styled.div<{ fadeAway: boolean }>`
     animation: ${fadeIn} 1s linear;
@@ -63,7 +102,7 @@ export const PriceInput = styled.input<CustomInput>`
     padding: 0;
     margin: 25px auto;
     outline: none;
-    width: 65%;
+    width: 25%;
     text-align: center; 
     border-radius: 10px;
 
@@ -284,6 +323,10 @@ export const BidPanelText = styled.div`
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
+
+    @media (max-width: 450px) {
+        text-align: center;
+    }
 `
 
 export const BidPanelButtonContainer = styled.div`
