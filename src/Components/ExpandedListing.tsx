@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BidPanel, BidPanelButtonContainer, BidPanelButtonContainerAcceptButton, BidPanelButtonContainerDeclineButton, BidPanelFlex, BidPanelImage, BidPanelText, BottomHalf, ButtonContainer, CancelButton, CurrentBidderText, DeleteButton, EditButton, FullPage, NameInput, Photo, PriceInput, SaveButton, TextArea, TextForm, TopHalf, VerticalDivider } from './ExpandedListingStyles.tsx';
+import { AskingPrice, AskingPriceContainer, BidPanel, BidPanelButtonContainer, BidPanelButtonContainerAcceptButton, BidPanelButtonContainerDeclineButton, BidPanelFlex, BidPanelImage, BidPanelText, BottomHalf, ButtonContainer, CancelButton, CurrentBidderText, DeleteButton, EditButton, FullPage, NameInput, Photo, PriceInput, SaveButton, TextArea, TextForm, TopHalf, VerticalDivider } from './ExpandedListingStyles.tsx';
 import { useLocation, useSearchParams, useParams, useNavigate } from 'react-router-dom';
 import DummyImage from "../mueshi.png"
 import { BidData, Status } from '../App.tsx';
@@ -44,12 +44,20 @@ const dummyBids: BidData[] = [
     },
 ];
 
+const dummyUser: PersonData = {
+    name: "dummy",
+    id: 0,
+    totalSales: 10,
+    listings: []
+};
+
 
 const ExpandedListing = () => {
 
     const [name, setName] = useState<string>("Dummy Name");
-    const [price, setPrice] = useState<number>(123123);
+    const [price, setPrice] = useState<string>();
     const [bids, setBids] = useState<BidData[]>(dummyBids);
+    const [isOwner, setIsOwner] = useState<boolean>(false);
     const [description, setDescription] = useState<string>("");
     const [fadeAway, setFadeAway] = useState<boolean>(false);
 
@@ -65,8 +73,14 @@ const ExpandedListing = () => {
             const dummyBids = res.data.bids;
             const { name, price } = listing;
 
+
+            if (listing.ownerId === dummyUser.id) {
+                setIsOwner(true);
+            }
+
+
             setName(name);
-            setPrice(price);
+            setPrice("$" + price);
             setBids(dummyBids);
             console.log(dummyBids);
         }).catch((err) => {
@@ -76,11 +90,12 @@ const ExpandedListing = () => {
 
     const handleSave = () => {
         /* make api call */
-        axios.put("http://localhost:3001/putListing", { name, price, id })
+        const newPrice = price?.substring(1);
+        axios.put("http://localhost:3001/putListing", { name, price: newPrice, id })
             .then((response) => {
                 const { name, price } = response.data;
                 setName(name);
-                setPrice(price as number);
+                setPrice("$" + price);
                 // Handle the successful response here
                 console.log('PUT request successful:', response.data);
                 setIsEdit(false);
@@ -112,6 +127,24 @@ const ExpandedListing = () => {
         })
     }
 
+    const acceptBid = (id: number) => {
+
+        axios.put("http://localhost:3001/acceptBid", { id }).then((res) => {
+
+            console.log("RES: ", res);
+            setFadeAway(true);
+
+            setTimeout(() => {
+                navigator("/");
+
+            }, 1000)
+        })
+
+    }
+
+    const declineBid = (id: number) => { }
+
+
     const updateName = (e: any) => {
         const value = e.target.value;
         setName(value);
@@ -131,15 +164,20 @@ const ExpandedListing = () => {
             <Photo src={DummyImage} alt={"hi"}></Photo>
             <TextForm>
                 <NameInput isEdit={isEdit} disabled={!isEdit} type="string" value={name} onChange={(e) => updateName(e)} />
-                <PriceInput isEdit={isEdit} disabled={!isEdit} type="number" value={price} onChange={(e) => updatePrice(e)} />
+                <AskingPriceContainer>
+                    <AskingPrice>Asking Price:</AskingPrice>
+                    <PriceInput isEdit={isEdit} disabled={!isEdit} type="string" value={price} onChange={(e) => updatePrice(e)} />
+                </AskingPriceContainer>
                 {/* <TextArea value={description} /> */}
 
-                <ButtonContainer>
-                    {!isEdit && <EditButton onClick={handleEdit}> Edit </EditButton>}
-                    {!isEdit && <DeleteButton onClick={handleDelete}> Delete </DeleteButton>}
-                    {isEdit && <SaveButton onClick={handleSave}> Save </SaveButton>}
-                    {isEdit && <CancelButton onClick={handleEdit}> Cancel </CancelButton>}
-                </ButtonContainer>
+                {isOwner &&
+                    <ButtonContainer>
+                        {!isEdit && <EditButton onClick={handleEdit}> Edit </EditButton>}
+                        {!isEdit && <DeleteButton onClick={handleDelete}> Delete </DeleteButton>}
+                        {isEdit && <SaveButton onClick={handleSave}> Save </SaveButton>}
+                        {isEdit && <CancelButton onClick={handleEdit}> Cancel </CancelButton>}
+                    </ButtonContainer>
+                }
             </TextForm>
         </TopHalf>
         <BottomHalf>
@@ -155,11 +193,13 @@ const ExpandedListing = () => {
                             <div> Bid: ${bid.price} </div>
                         </BidPanelText>
                     </BidPanelFlex>
-                    <BidPanelButtonContainer>
-                        <BidPanelButtonContainerAcceptButton>Accept</BidPanelButtonContainerAcceptButton>
-                        <BidPanelButtonContainerDeclineButton>Decline</BidPanelButtonContainerDeclineButton>
+                    {isOwner &&
+                        <BidPanelButtonContainer>
+                            <BidPanelButtonContainerAcceptButton onClick={() => acceptBid(bid.id)}>Accept</BidPanelButtonContainerAcceptButton>
+                            <BidPanelButtonContainerDeclineButton onClick={() => declineBid(bid.id)}>Decline</BidPanelButtonContainerDeclineButton>
 
-                    </BidPanelButtonContainer>
+                        </BidPanelButtonContainer>
+                    }
                 </BidPanel>
             })}
         </BottomHalf>

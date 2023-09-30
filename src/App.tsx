@@ -245,22 +245,29 @@ export interface ListingData {
 //   // Add more objects as needed
 // ];
 
-const dummyUser: PersonData = {
-  name: "dummy",
-  id: 0,
-  totalSales: 10,
-  listings: []
-};
+// const dummyUser: PersonData = {
+//   name: "dummy",
+//   id: 0,
+//   totalSales: 10,
+//   listings: []
+// };
 
 function App() {
 
   const navigator = useNavigate();
 
-  const [user, setUser] = useState<PersonData>(dummyUser);
+  const [user, setUser] = useState<PersonData>();
   const [listings, setListings] = useState<ListingData[]>()
   const [showYourLists, setShowYourLists] = useState<boolean>(true);
-  const [totalSales, setTotalSales] = useState<number>(0);
+  // const [totalSales, setTotalSales] = useState<number>(0);
   const [fadeAway, setFadeAway] = useState<boolean>(false);
+
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/getPeople").then((res) => {
+      setUser(res.data);
+    })
+  }, [])
 
 
   useEffect(() => {
@@ -296,15 +303,15 @@ function App() {
       <div className='navbar'>
         Your listings
         all listings
-        total sales {totalSales}
+        total sales ${user && user.totalSales}
       </div>
-      <CreateListing listings={listings} addListing={addListing} ownerId={user.id}></CreateListing>
+      {user && <CreateListing listings={listings} addListing={addListing} ownerId={user.id}></CreateListing>}
 
       <div>
         <div className="app-horizontal-divider"></div>
       </div>
       <div className="app-sales-filter-container">
-        <h2 className='app-total-sales'>Your Total Sales: ${totalSales}</h2>
+        <h2 className='app-total-sales'>Your Total Sales: ${user && user.totalSales}</h2>
 
         <ListingFilter showYourLists={showYourLists} handleSetShowYourLists={handleSetShowYourLists}></ListingFilter>
       </div>

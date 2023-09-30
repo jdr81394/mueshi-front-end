@@ -112,10 +112,12 @@ border-radius: 200px;
 
 
 export const ProductTextDescription = styled.div`
-
+    
+    text-align: center;
+    font-style: italic;
 
 @media(max-width: 684px) {
-
+        margin: auto;
         display: flex;
         flex-direction: column;
         flex-basis: 100 %;

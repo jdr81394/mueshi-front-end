@@ -199,6 +199,28 @@ export const DeleteButton = styled.button`
 `
 
 
+export const AskingPriceContainer = styled.div`
+    display: flex;
+`
+
+export const AskingPrice = styled.div`
+position: relative;
+    margin: auto;
+    left: 100px;
+
+    @media (max-width: 800px) {
+        left: 90px;
+    }
+
+    @media (max-width: 410px) {
+        left: 85px;
+    }
+
+    @media (max-width: 369px) {
+        left: 65px;
+    }
+
+`;
 
 
 export const TextArea = styled.textarea`
